@@ -46,6 +46,8 @@ public:
 		// Gets the coordinates for the mouse position.
 		int mouseX = (GetMouseX() / gap) * gap;
 		int mouseY = (GetMouseY() / gap) * gap;
+		int nodeX = mouseX / gap;
+		int nodeY = mouseY / gap;
 		// Variables for storing the coordinates
 		int startingRow;
 		int startingColumn;
@@ -74,35 +76,35 @@ public:
 		if (GetMouse(0).bReleased) // Start node
 		{
 			FillRect(mouseX + 1, mouseY + 1, gap - 1, gap - 1, olc::GREEN);
-			startingRow = node[mouseY * 20 + mouseX].x;
-			startingColumn = node[mouseY * 20 + mouseX].y;
-			rootNode = &node[mouseY * 20 + mouseX];
+			startingRow = node[nodeY * 20 + nodeX].x;
+			startingColumn = node[nodeY * 20 + nodeX].y;
+			rootNode = &node[nodeY * 20 + nodeX];
 		}
 		if (GetMouse(1).bPressed) // End node
 		{
 			FillRect(mouseX + 1, mouseY + 1, gap - 1, gap - 1, olc::RED);
-			endRow = node[mouseY * 20 + mouseX].x;
-			endColumn = node[mouseY * 20 + mouseX].y;
-			endNode = &node[mouseY * 20 + mouseX];
+			endRow = node[nodeY * 20 + nodeX].x;
+			endColumn = node[nodeY * 20 + nodeX].y;
+			endNode = &node[nodeY * 20 + nodeX];
 		}
 		if (GetKey(olc::Key::CTRL).bHeld) // Placing obstacles
 		{
 			FillRect(mouseX + 1, mouseY + 1, gap - 1, gap - 1, olc::GREY);
-			obstacle[mouseX][mouseY] = true; // Error happens here if the obstacle node is placed at a certain point on the grid (or rather, multiple)
+			obstacle[nodeX][nodeY] = true; // Error happens here if the obstacle node is placed at a certain point on the grid (or rather, multiple)
 		}
 		if (GetKey(olc::Key::SHIFT).bHeld) // Clearing the grid
 		{
 			FillRect(mouseX + 1, mouseY + 1, gap - 1, gap - 1, olc::WHITE);
-			if (obstacle[mouseX][mouseY] == true)
+			if (obstacle[nodeX][nodeY] == true)
 			{
-				obstacle[mouseX][mouseY] = false;
+				obstacle[nodeX][nodeY] = false;
 			}
-			if (&node[mouseY * 20 + mouseX] == rootNode)
+			if (&node[nodeY * 20 + nodeX] == rootNode)
 			{
 				FillRect(mouseX + 1, mouseY + 1, gap - 1, gap - 1, olc::WHITE);
 				rootNode = nullptr;
 			}
-			if (&node[mouseY * 20 + mouseX] == endNode)
+			if (&node[nodeY * 20 + nodeX] == endNode)
 			{
 				FillRect(mouseX + 1, mouseY + 1, gap - 1, gap - 1, olc::WHITE);
 				endNode = nullptr;
